@@ -1,6 +1,6 @@
 
 var pg = require('pg');
-var conString = "postgres://postgres:6587847@localhost/tcc";
+var conString = "postgres://postgres:@localhost/mymechanic";
 
 
 
@@ -33,9 +33,10 @@ var conString = "postgres://postgres:6587847@localhost/tcc";
     });
   };
 
-  module.exports.insert= function(oficina){
-    var query1 = "INSERT INTO oficina(nome, descricao) VALUES($1,$2)";
-    var params = [oficina.nome, oficina.descricao];
+
+  module.exports.insertGarage= function(garage){
+    var query1 = "INSERT INTO mymechanic.garage(name, email, cep, born_year, cellphone, description) VALUES($1,$2,$3,$4,$5,$6)";
+    var params = [garage.name, garage.email, garage.cep, garage.born_year, garage.cellphone, garage.description];
     return query(query1, params)
   };
 

@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 })); 
 
 	//res.send(banco.listAll());
-app.post('/insert', function(req, res){
-	var oficina = req.body;
-	banco.insert(oficina).then(function(resultado){
-		res.send(resultado) ;
+app.post('/insert/garage', function(req, res){
+	var garage = req.body;
+	banco.insertGarage(garage).then(function(result){
+		res.send(result) ;
 	})
 });
 
