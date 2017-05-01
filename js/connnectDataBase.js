@@ -35,9 +35,23 @@ var conString = "postgres://postgres:@localhost/mymechanic";
 
 
   module.exports.insertGarage= function(garage){
-    var query1 = "INSERT INTO mymechanic.garage(name, email, cep, born_year, cellphone, description) VALUES($1,$2,$3,$4,$5,$6)";
-    var params = [garage.name, garage.email, garage.cep, garage.born_year, garage.cellphone, garage.description];
-    return query(query1, params)
+      return query ("insert into mymechanic.garage(name, email, cep, born_year, cellphone, description) values ($1,$2,$3,$4,$5,$6) returning *", [garage.name, garage.email, garage.cep, garage.born_year, garage.cellphone, garage.description]);
+  };
+
+  module.exports.insertCustomer= function(customer){
+      return query ("insert into mymechanic.customer(name, email, cep, born_year, profession, car, sex, cellphone) values ($1,$2,$3,$4,$5,$6,$7,$8) returning *", [customer.name, customer.email, customer.cep, customer.born_year, customer.profession, customer.car, customer.sex, customer.cellphone]);
+  };
+
+  module.exports.insertUser= function(user){
+      return query ("insert into mymechanic.user(id_customer, id_garage) values ($1,$2) returning *", [user.id_customer, user.id_garage]);
+  };
+
+    module.exports.insertReview= function(review){
+      return query ("insert into mymechanic.review(id_customer, id_garage, id_review_fk, review) values ($1,$2,$3,$4) returning *", [review.id_customer,  review.id_garage, review.id_review_fk, review.review]);
+  };
+
+  module.exports.insertAnswer= function(answer){
+      return query ("insert into mymechanic.answer(id_customer, id_review, answer) values ($1,$2, $3) returning *", [review.id_customer, review.id_review, review.answer]);
   };
 
 

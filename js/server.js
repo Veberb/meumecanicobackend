@@ -16,11 +16,27 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-	//res.send(banco.listAll());
 app.post('/insert/garage', function(req, res){
 	var garage = req.body;
 	banco.insertGarage(garage).then(function(result){
-		res.send(result) ;
+		result = result[0];
+		var user = {};
+		user.id_garage = result.id;
+		banco.insertUser(user).then(function(result){
+			res.send(user);
+		})
+	})
+});
+
+app.post('/insert/customer', function(req, res){
+	var customer = req.body;
+	banco.insertCustomer(customer).then(function(result){
+		result = result[0];
+		var user = {};
+		user.id_customer = result.id;
+		banco.insertUser(user).then(function(result){
+			res.send(user);
+		})
 	})
 });
 
