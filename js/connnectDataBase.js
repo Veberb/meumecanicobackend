@@ -1,6 +1,6 @@
 
 var pg = require('pg');
-var conString = "postgres://postgres:@localhost/mymechanic";
+var conString = "postgres://postgres@localhost/tcc";
 
 
 
@@ -43,7 +43,7 @@ var conString = "postgres://postgres:@localhost/mymechanic";
   };
 
   module.exports.insertUser= function(user){
-      return query ("insert into mymechanic.user(id_customer, id_garage) values ($1,$2) returning *", [user.id_customer, user.id_garage]);
+      return query ("insert into mymechanic.user(id_customer, id_garage, password) values ($1,$2, $3) returning *", [user.id_customer, user.id_garage, user.password]);
   };
 
     module.exports.insertReview= function(review){

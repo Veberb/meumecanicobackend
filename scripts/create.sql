@@ -2,11 +2,11 @@ drop schema if exists mymechanic cascade;
 
 create schema mymechanic;
 
-CREATE SEQUENCE seq_garage START 101;
-CREATE SEQUENCE seq_customer START 101;
-CREATE SEQUENCE seq_user START 101;
-CREATE SEQUENCE seq_review START 101;
-CREATE SEQUENCE seq_answer START 101;
+CREATE SEQUENCE mymechanic.seq_garage START 101;
+CREATE SEQUENCE mymechanic.seq_customer START 101;
+CREATE SEQUENCE mymechanic.seq_user START 101;
+CREATE SEQUENCE mymechanic.seq_review START 101;
+CREATE SEQUENCE mymechanic.seq_answer START 101;
 
 create table mymechanic.garage (
   id integer NOT NULL DEFAULT nextval('seq_garage'),
@@ -66,3 +66,6 @@ create table mymechanic.answer (
   foreign key (id_review) references mymechanic.review (id),
   foreign key (id_garage) references mymechanic.garage (id)
 );
+
+ALTER TABLE mymechanic.user
+ADD password text;

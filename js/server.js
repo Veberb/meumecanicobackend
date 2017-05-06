@@ -22,6 +22,7 @@ app.post('/insert/garage', function(req, res){
 		result = result[0];
 		var user = {};
 		user.id_garage = result.id;
+		user.password = garage.password;
 		banco.insertUser(user).then(function(result){
 			res.send(user);
 		})
