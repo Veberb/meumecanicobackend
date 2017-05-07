@@ -18,10 +18,29 @@ app.use(bodyParser.urlencoded({
 
 app.use('/', require('./route/sessionRoute'));
 
-app.post('/insert', function(req, res){
-	const oficina = req.body;
-	banco.insert(oficina).then(function(resultado){
-		res.send(resultado) ;
+app.post('/insert/garage', function(req, res){
+	var garage = req.body;
+	banco.insertGarage(garage).then(function(result){
+		result = result[0];
+		var user = {};
+		user.id_garage = result.id;
+		user.password = garage.password;
+		banco.insertUser(user).then(function(result){
+			res.send(user);
+		})
+	})
+});
+
+app.post('/insert/customer', function(req, res){
+	var customer = req.body;
+	banco.insertCustomer(customer).then(function(result){
+		result = result[0];
+		var user = {};
+		user.id_customer = result.id;
+		user.password = customer.password;
+		banco.insertUser(user).then(function(result){
+			res.send(user);
+		})
 	})
 });
 
