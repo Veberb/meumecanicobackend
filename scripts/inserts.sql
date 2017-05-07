@@ -40,5 +40,6 @@ INSERT INTO mymechanic.garage (id,name,email,cep,born_year,cellphone,description
 INSERT INTO mymechanic.customer (id, name, email, cep, born_year, profession, car, sex, cellphone) VALUES
     (1000, 'Mateus', 'mateus@gennera.com.br', 88070340, 1991, 'desenvolvedor', 'corsa', 'female', 4896048616);
 
-INSERT INTO mymechanic."user" (id, id_customer, id_garage, password) VALUES
-    (250,1000,null,123456 )    
+INSERT INTO mymechanic."user" (id, id_customer, id_garage, password) VALUES (250,1000,null,123456 );
+
+insert into mymechanic."user" (id, id_garage, password) values (251, 1000, 123456);
