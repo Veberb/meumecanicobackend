@@ -1,24 +1,25 @@
-var express = require("express");
-var app = express();
-var banco = require("./connnectDataBase.js");
-var bodyParser = require('body-parser');
+const express = require("express");
+const app = express();
+const banco = require("./connnectDataBase.js");
+const bodyParser = require('body-parser');
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+app.all('*', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
 });
 
 
-app.use(bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
   extended: true
-})); 
+}));
 
-	//res.send(banco.listAll());
+app.use('/', require('./route/sessionRoute'));
+
 app.post('/insert', function(req, res){
-	var oficina = req.body;
+	const oficina = req.body;
 	banco.insert(oficina).then(function(resultado){
 		res.send(resultado) ;
 	})
@@ -31,40 +32,34 @@ app.get('/consultaCliente', function(req, res){
 });
 
 app.post('/adicionarCheques', function(req, res){
-	var newCheque = req.body;
+	const newCheque = req.body;
 	banco.insertCheque(newCheque).then(function(resultado){
 		res.send(resultado) ;
 	})
 });
 
 app.post('/deletaCheque', function(req, res){
-	var delCheque = req.body;
+	const delCheque = req.body;
 	banco.deleteCheque(delCheque).then(function(resultado){
 		res.send(resultado) ;
 	})
 });
 
 app.post('/adicionaPessoa', function(req, res){
-	var newPessoa = req.body;
+	const newPessoa = req.body;
 	banco.insertPessoa(newPessoa).then(function(resultado){
 		res.send(resultado) ;
 	})
 });
 
 app.post('/deletaPessoa', function(req, res){
-	var delPessoa = req.body;
+	const delPessoa = req.body;
 	banco.deletaPessoa(delPessoa).then(function(resultado){
 		res.send(resultado) ;
 	})
 });
 
 
-var server = app.listen(8081, function(){
-	var host = server.address().address
-	var port = server.address().port
-
-	console.log(host);
-	console.log(port);
+const server = app.listen(8081, function () {
+	console.log("meuMecanico rodando em modo desenvolvimento no ip: ", server.address().address, " e na porta", server.address().port);
 });
-
-
