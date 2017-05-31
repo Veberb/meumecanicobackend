@@ -78,9 +78,6 @@ app.post('/client/editClient', function (req, res) {
 	client.id = req.user.id;
 	banco.editClient(client).then(function (result) {
 		res.send(result);
-		/*		banco.insertUser(user).then(function (result) {
-					res.send(user);
-				})*/
 	})
 });
 
@@ -92,46 +89,20 @@ app.get('/client/findClient', function (req, res) {
 	})
 });
 
-
-
-
-
-
-
-app.get('/consultaCliente', function (req, res) {
-	banco.listCliente().then(function (resultado) {
-		res.send(resultado);
+app.post('/recomendacao/cadastro', function (req, res) {
+	var params = req.body;
+	console.log(params)
+	banco.insertRecomendacao(params).then(function (result) {
+		console.log("Result: ",result);
 	})
 });
 
-app.post('/adicionarCheques', function (req, res) {
-	const newCheque = req.body;
-	banco.insertCheque(newCheque).then(function (resultado) {
+app.post('/recomendacao/reviewByGarage', function (req, res) {
+	var id = req.body.id;
+	banco.reviewByGarage(id).then(function (resultado) {
 		res.send(resultado);
 	})
 });
-
-app.post('/deletaCheque', function (req, res) {
-	const delCheque = req.body;
-	banco.deleteCheque(delCheque).then(function (resultado) {
-		res.send(resultado);
-	})
-});
-
-app.post('/adicionaPessoa', function (req, res) {
-	const newPessoa = req.body;
-	banco.insertPessoa(newPessoa).then(function (resultado) {
-		res.send(resultado);
-	})
-});
-
-app.post('/deletaPessoa', function (req, res) {
-	const delPessoa = req.body;
-	banco.deletaPessoa(delPessoa).then(function (resultado) {
-		res.send(resultado);
-	})
-});
-
 
 const server = app.listen(8081, function () {
 	console.log("meuMecanico rodando em modo desenvolvimento no ip: ", server.address().address, " e na porta", server.address().port);

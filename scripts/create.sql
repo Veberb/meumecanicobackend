@@ -69,3 +69,6 @@ create table mymechanic.answer (
 
 ALTER TABLE mymechanic.user
 ADD password text;
+
+ALTER TABLE mymechanic.review
+ADD grade integer
