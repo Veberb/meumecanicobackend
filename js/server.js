@@ -3,6 +3,7 @@ const app = express();
 const banco = require("./connnectDataBase.js");
 const bodyParser = require('body-parser');
 const sessionService = require('./service/sessionService.js');
+const co = require("co");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -50,9 +51,19 @@ app.post('/insert/customer', function (req, res) {
 });
 
 app.get('/garage/listAll', function (req, res) {
-	banco.listAllGarage().then(function (resultado) {
-		res.send(resultado);
-	})
+	return co(function* () {
+		const garages = yield banco.listAllGarage();
+		for (let garage of garages){
+			const reviews = yield  banco.reviewByGarage(garage.id);
+			let media = 0;
+			for(let review of reviews){
+				media += review.grade;
+			}
+			garage.media = media / reviews.length;
+		}
+		res.json(garages);
+	});
+
 });
 
 app.get('/garage/findGarage', function (req, res) {
@@ -91,9 +102,9 @@ app.get('/client/findClient', function (req, res) {
 
 app.post('/recomendacao/cadastro', function (req, res) {
 	var params = req.body;
-	console.log(params)
+	console.log("AQQQQQ", params);
 	banco.insertRecomendacao(params).then(function (result) {
-		console.log("Result: ",result);
+		console.log("Result: ", result);
 	})
 });
 
@@ -101,6 +112,21 @@ app.post('/recomendacao/reviewByGarage', function (req, res) {
 	var id = req.body.id;
 	banco.reviewByGarage(id).then(function (resultado) {
 		res.send(resultado);
+	})
+});
+
+app.post('/recomendacao/reviewByClient', function (req, res) {
+	var id = req.user.id;
+	banco.reviewByClient(id).then(function (resultado) {
+		res.send(resultado);
+	})
+});
+
+app.post('/garage/findGarageById', function (req, res) {
+	console.log("redqqwe: ", req.body.id);
+	var id = req.body.id;
+	banco.findGarage(id).then(function (result) {
+		res.send(result);
 	})
 });
 

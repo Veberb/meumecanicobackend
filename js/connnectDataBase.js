@@ -88,12 +88,18 @@ module.exports.editClient = function (client) {
 };
 
 module.exports.insertRecomendacao = function (rec) {
-  return query("insert into mymechanic.review(id_customer, id_garage, review, grade) values ($1,$2,$3, $4) returning *", [rec.client.id, rec.garage.obj.id, rec.description, rec.grade ]);
+  return query("insert into mymechanic.review(id_customer, id_garage, review, grade) values ($1,$2,$3, $4) returning *", [rec.client.id, rec.garage.id, rec.description, rec.grade]);
 };
 
 module.exports.reviewByGarage = function (id) {
   var params = [id];
   var query1 = "select r.creation_time as creation_review, r.creation_time as creation_customer ,* from mymechanic.review r join mymechanic.customer c on r.id_customer = c.id  where r.id_garage = $1";
+  return query(query1, params)
+};
+
+module.exports.reviewByClient = function (id) {
+  var params = [id];
+  var query1 = "select r.creation_time as creation_review, r.creation_time as creation_customer, c.name as clientname ,* from mymechanic.review r join mymechanic.customer c on r.id_customer = c.id join mymechanic.garage g on r.id_garage = g.id  where r.id_customer = $1";
   return query(query1, params)
 };
 //r.id, r.id_customer, r.id_garage, r.id_review, r.review, r.creation_time, r.grade
